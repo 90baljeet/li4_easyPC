@@ -1,0 +1,91 @@
+﻿@model easyPC.Models.Encomenda
+
+@{
+    ViewData["Title"] = "Criar Encomenda";
+}
+
+<h2>Criar Encomenda</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <strong>Erros:</strong>
+        <ul>
+            @foreach (var modelError in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@modelError.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="ClienteId" class="control-label">Cliente</label>
+        <select asp-for="ClienteId" class="form-control" asp-items="ViewBag.ClienteId"></select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Data" class="control-label">Data</label>
+        <input asp-for="Data" class="form-control" type="date" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Estado" class="control-label">Estado</label>
+        <select asp-for="Estado" class="form-control">
+            <option value="encomendada">Encomendada</option>
+            <option value="em montagem">Em Montagem</option>
+            <option value="concluída">Concluída</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="MontagemId" class="control-label">Montagem</label>
+        <select asp-for="MontagemId" class="form-control" asp-items="ViewBag.Montagens"></select>
+    </div>
+       
+
+    <fieldset class="border p-3">
+        <legend class="w-auto px-2">Componentes</legend>
+
+        <div class="form-group">
+            <label>CPU</label>
+            <select name="SelectedComponentes[]" class="form-control" asp-items="ViewBag.CPU"></select>
+        </div>
+
+        <div class="form-group">
+            <label>RAM</label>
+            <select name="SelectedComponentes[]" class="form-control" asp-items="ViewBag.RAM"></select>
+        </div>
+
+        <div class="form-group">
+            <label>Disco</label>
+            <select name="SelectedComponentes[]" class="form-control" asp-items="ViewBag.Disco"></select>
+        </div>
+
+        <div class="form-group">
+            <label>Fonte</label>
+            <select name="SelectedComponentes[]" class="form-control" asp-items="ViewBag.Fonte"></select>
+        </div>
+
+        <div class="form-group">
+            <label>Caixa</label>
+            <select name="SelectedComponentes[]" class="form-control" asp-items="ViewBag.Caixa"></select>
+        </div>
+    </fieldset>
+
+    <div class="form-group mt-3">
+        <input type="submit" value="Criar" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Voltar à lista</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
